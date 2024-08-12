@@ -1,13 +1,20 @@
 import { useState } from 'react'
 
 import './App.css'
+import NestedComment from './components/NestedComment'
+import { data } from './Utils/data'
+import AddComment from './components/AddComment'
 
 function App() {
 
   return (
     <>
-      <h1 className="bg-red-500 ">Nested Component</h1>
-    </>
+    <AddComment/>
+      {data.map((item)=>(
+      <NestedComment data={item}/>
+    )
+    )}
+      </>
   )
 }
 
