@@ -6,12 +6,12 @@ import { data } from './Utils/data'
 import AddComment from './components/AddComment'
 
 function App() {
-
+  const [localData,setLocalData] =useState(data);
   return (
     <>
-    <AddComment/>
-      {data.map((item)=>(
-      <NestedComment data={item}/>
+    <AddComment data={localData} setData={setLocalData}/>
+      {localData.map((item)=>(
+      <NestedComment data={item} setData={setLocalData}/>
     )
     )}
       </>
