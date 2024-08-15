@@ -18,7 +18,7 @@ function NestedComment({ data, setData }) {
   const [like, setLiked] = useState(false);
   const [reply, setReply] = useState(false);
   const names = ["Rajesh", "Suresh", "Sachin", "Ayush", "Harsh", "Akash"];
-  const { DeleteComment } = useUpdateComment(setData);
+  const { DeleteComment,UpdateLikes } = useUpdateComment(setData);
 
   const handleReply = () => {
     setReply((prev) => !prev);
@@ -51,7 +51,10 @@ function NestedComment({ data, setData }) {
         </div>
         <div className="flex space-x-4 text-sm">
           <button
-            onClick={() => setLiked((prev) => !prev)}
+            onClick={() => {
+              setLiked((prev) => !prev)
+              UpdateLikes(data.id);
+            }}
             className="flex items-center  text-primary "
           >
             {like ? <AiFillLike /> : <AiOutlineLike />}
@@ -66,19 +69,19 @@ function NestedComment({ data, setData }) {
           </button>
         </div>
       </div>
-      {reply && <AddComment data={data} setData={setData} isShow={false} />}
+      {reply && <AddComment data={data} setData={setData} isShow={reply} setShowReply={setReply} parent={data}/>}
       <button
         style={{ marginLeft: `${data.level * 20}px` }}
         className="flex items-center ml-2 text-sm text-primary"
         onClick={() => setShowReply((prev) => !prev)}
       >
         {showReply ? <FaChevronUp /> : <FaChevronDown />}
-        {data.replies.length}Replies
+        { data.replies?.length}Replies
       </button>
       {data.replies && showReply && (
         <div className="">
           {data.replies.map((item) => (
-            <NestedComment data={item} />
+            <NestedComment data={item} setData={setData}/>
           ))}
         </div>
       )}

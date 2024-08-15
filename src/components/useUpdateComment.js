@@ -3,41 +3,79 @@ import React from 'react'
 function useUpdateComment(setData) {
 
 
-  const AddReplyComment =()=>{
-      
-  }	
- 
-  const DeleteComment   =(id)=>{
-
+  const AddReplyComment =(parentId,Comment)=>{
 	setData((prev)=>{
 		function recursiveTraverse(data){
-
-			if(data){
-				
-				data.filter((item)=>{
-					if(item.id===id){
-						return null;
+			return data.map((item)=>{
+				console.log(item)
+					if(item.id===parentId){
+						return {...item,replies:[...item.replies,Comment]};
 					}
-					else if(item.replies.length){
-						recursiveTraverse(item);
+					else if(item.replies.length>0){
+						return {...item,replies: recursiveTraverse(item.replies)};
 					}
 					else{
 						return item;
 					}
 				})
 			}
+		const finalData= recursiveTraverse(prev);
+		return finalData;
+	});
+      
+  }	
+ 
+  const DeleteComment=(id)=>{
+	setData((prev)=>{
+		function recursiveTraverse(data){
+			return data.reduce((acc,item)=>{
+					if(item.id === id){
+						return acc
+					}
+					else if(item.replies.length>0){
+						return [...acc,{...item,replies: recursiveTraverse(item.replies)}];
+					}
+				
+					return [...acc,item];
+				
+				},[])
 			}
-		recursiveTraverse(prev);
+		const finalData= recursiveTraverse(prev);
+		console.log(finalData)
+		return finalData;
 	})
+
 
   }
   
   const UpdateComment   =()=>{
+	
 
   }
 
+  const UpdateLikes =(id)=>{
+	setData((prev)=>{
+		function recursiveTraverse(data){
+			return data.map((item)=>{
+				console.log(item)
+					if(item.id===id){
+						return {...item,votes:item.votes+1};
+					}
+					else if(item.replies.length>0){
+						return {...item,replies: recursiveTraverse(item.replies)};
+					}
+					else{
+						return item;
+					}
+				})
+			}
+		const finalData= recursiveTraverse(prev);
+		return finalData;
+	});
+  }
 
-  return {AddReplyComment, DeleteComment, UpdateComment}
+
+  return {AddReplyComment, DeleteComment, UpdateComment,UpdateLikes}
 }
 
 export default useUpdateComment

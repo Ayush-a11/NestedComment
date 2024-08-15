@@ -3,11 +3,11 @@ import { FiSend } from "react-icons/fi";
 import useUpdateComment from './useUpdateComment';
 
 
-function AddComment({data,setData,isShow=true}) {
+function AddComment({data,setData,isShow=true,setShowReply,parent}) {
 	
 	const [comment,setComment]= useState("");
 
-	const {AddReplyComment} =useUpdateComment()
+	const {AddReplyComment} =useUpdateComment(setData)
 
 	const handleAddComment =()=>{
 		if(comment){
@@ -16,9 +16,14 @@ function AddComment({data,setData,isShow=true}) {
 							"content": comment,
 							"votes": 0,
 							"timestamp":new Date().getDate(),
-							"level":0,
+							"level":(parent?.level)+1||0,
 							"replies": []}
+			if(isShow)
 			setData((prev)=>[...prev,newData]);
+			else{
+			AddReplyComment(parent.id,newData);
+			setShowReply((prev)=>!prev);
+			}
 		}
 	}
   return (
