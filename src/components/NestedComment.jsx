@@ -17,7 +17,7 @@ function NestedComment({ data, setData }) {
   const [showReply, setShowReply] = useState(false);
   const [like, setLiked] = useState(false);
   const [reply, setReply] = useState(false);
-  const names = ["Rajesh", "Suresh", "Sachin", "Ayush", "Harsh", "Akash"];
+  const names = ["rajesh", "suresh", "sachin", "ayush", "harsh", "akash"];
   const { DeleteComment,UpdateLikes } = useUpdateComment(setData);
 
   const handleReply = () => {
@@ -25,31 +25,26 @@ function NestedComment({ data, setData }) {
   };
 
   return (
-    <div className="bg-black p-2 transition-all duration-300">
+    <div className=" p-2 transition-all duration-300">
       <div
-        className={`bg-[rgb(13,13,13)] mt-5 p-2 w-80 `}
-        style={{ marginLeft: `${data.level * 20}px` }}
-      >
-        <div className="flex items-center space-x-2 ">
+        className={` mt-2 p-2 w-96 `}
+        style={{ marginLeft: `${data.level * 20}px` }}>
+        <div className="flex items-start space-x-2 ">
           {" "}
-          <FaUserCircle />
-          <span className="text-sm">
-            {names[Math.round(Math.random() * (names.length - 1))]}
-          </span>
-          <span className="flex items-center text-sm text-primary">
-            <CiTimer />
-            {new Date(data.timestamp).toLocaleDateString()}
-          </span>
-
-		  <div className="">
-		  <button onClick={()=>DeleteComment(data.id)}><MdOutlineDeleteSweep /></button>
-
-		  </div>
-        </div>
-        <div className="flex items-center">
+          <FaUserCircle className="text-3xl" />
+          <div className="flex flex-col items-start -space-y-2">
+          <div className="flex">  
+            <span className="text-sm">
+              @{names[Math.round(Math.random() * (names.length - 1))]}
+            </span>
+            <span className="flex items-center text-sm text-primary">
+              <CiTimer />
+              {new Date(data.timestamp).toLocaleDateString()}
+              
+            </span>
+          </div>
           <h1 className="p-2">{data.content}</h1>
-        </div>
-        <div className="flex space-x-4 text-sm">
+          <div className="flex space-x-4 text-sm">
           <button
             onClick={() => {
               setLiked((prev) => !prev)
@@ -68,8 +63,16 @@ function NestedComment({ data, setData }) {
             Reply
           </button>
         </div>
+          </div>
+
+		  <div className="">
+		  <button onClick={()=>DeleteComment(data.id)}><MdOutlineDeleteSweep /></button>
+
+		  </div>
+        </div>
+        
       </div>
-      {reply && <AddComment data={data} setData={setData} isShow={reply} setShowReply={setReply} parent={data}/>}
+      {reply && <AddComment data={data} setData={setData} isShow={!reply} setShowReply={setReply} parent={data}/>}
       <button
         style={{ marginLeft: `${data.level * 20}px` }}
         className="flex items-center ml-2 text-sm text-primary"

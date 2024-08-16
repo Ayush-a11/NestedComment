@@ -34,7 +34,7 @@ function AddComment({data,setData,isShow=true,setShowReply,parent}) {
 	</div>
 	{isShow &&
 	<div className="flex m-2">Sort By&nbsp; 
-		<select className='bg-secondary border-2 rounded-lg border-primary'>
+		<select className='bg-secondary border-b-2  border-primary'>
 			<option value="Most Liked">Most Liked</option>
 			<option value="Most Liked">Most Replied</option>
 			<option value="Most Liked">Newest</option>
